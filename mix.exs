@@ -11,6 +11,7 @@ defmodule Surface.MixProject do
       description: "A component based library for Phoenix LiveView",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
+      test_coverage: [tool: SpryCov],
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: docs(),
@@ -38,7 +39,8 @@ defmodule Surface.MixProject do
       {:phoenix_ecto, "~> 4.0", only: :test},
       {:sourceror, "~> 0.9"},
       {:ecto, "~> 3.4.2", only: :test},
-      {:ex_doc, ">= 0.19.0", only: :docs}
+      {:ex_doc, ">= 0.19.0", only: :docs},
+      {:spry_cov, "~> 0.3.0", only: [:test]}
     ]
   end
 
