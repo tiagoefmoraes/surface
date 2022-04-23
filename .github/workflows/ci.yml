@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - spry_cov
 
 jobs:
   mix_test:
@@ -14,15 +14,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - elixir: 1.11.4
-            otp: 22.3
-          - elixir: 1.11.4
-            otp: 23.3
-          - elixir: 1.12.1
-            otp: 24.0
+          - elixir: 1.13.4
+            otp: 24.3.3
             check_formatted: true
-          - elixir: 1.13.0
-            otp: 24.0
             run_plugin_tests: true
             warnings-as-errors: true
     env:
@@ -38,11 +32,12 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
           mix deps.get --only test
+      - run: mix deps.compile
       - run: mix format --check-formatted
         if: matrix.check_formatted
       - run: mix compile --warnings-as-errors
         if: matrix.warnings_as_errors
-      - run: mix test
+      - run: mix test --cover
         if: matrix.run_plugin_tests
-      - run: mix test --exclude plugin
+      - run: mix test --cover --exclude plugin
         if: ${{ !matrix.run_plugin_tests }}
