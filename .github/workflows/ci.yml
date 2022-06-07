@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - elixir_next
 
 jobs:
   mix_test:
@@ -13,18 +14,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # For each Elixir version, add a run with earliest supported Erlang/OTP
+        elixir: ["main", "1.13", "1.13.0", "1.12", "1.12.0"]
+        otp: ["23.0"]
         include:
-          - elixir: 1.12.3
-            otp: 23.3
-          - elixir: 1.12.3
-            otp: 24.0
-          - elixir: 1.13.4
-            otp: 24.0
-          - elixir: 1.13.4
-            otp: 25.0
+          # For the last Elixir version, also test the latest supported Erlang/OTP
+          - elixir: "main"
+            otp: "25.0"
             check_formatted: true
             run_plugin_tests: true
-            warnings-as-errors: true
+            warnings_as_errors: true
     env:
       MIX_ENV: test
     steps:
