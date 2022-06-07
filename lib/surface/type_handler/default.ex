@@ -1,7 +1,7 @@
 defmodule Surface.TypeHandler.Default do
   @moduledoc false
 
-  use Surface.TypeHandler
+  @behaviour Surface.TypeHandler
 
   @impl true
   def literal_to_ast_node(_type, _name, value, _meta) do
